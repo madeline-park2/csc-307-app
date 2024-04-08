@@ -4,7 +4,7 @@ import Table from "./Table";
 
 
 function MyApp() {
-  const [characters, setCharaters] = useState([
+  const [characters, setCharacters] = useState([
     {
       name: "Charlie",
       job: "Janitor"
@@ -35,6 +35,7 @@ function MyApp() {
       <Table
         characterData={characters}
         removeCharacter={removeOneCharacter}
+      
       />
     </div>
   );
