@@ -65,10 +65,10 @@ const findUserById = (id) =>
 const findUserByNameJob = (name, job) =>
   users["users_list"].find((user) => user["name"] === name && user["job"] === job);
 
-const getId = (id) => {
-  let index = users["users_list"].indexOf(findUserById(id));
-  return index;
-}
+  const getId = (id) => {
+    let index = users["users_list"].indexOf(findUserById(id));
+    return index;
+  }
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id

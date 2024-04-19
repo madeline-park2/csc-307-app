@@ -7,19 +7,28 @@ function MyApp() {
   const [characters, setCharacters] = useState([]);
 
   function removeOneCharacter(index) {
+    const id = characters[index]["id"];
+    console.log(characters[index]);
     const updated = characters.filter((character, i) => {
       return i !== index;
-    });
+    })
     setCharacters(updated);
+    const promise = fetch(`http://localhost:8000/users/:${id}`, {method: "DELETE"});
+    return promise;
   }
 
   function updateList(person) { 
     postUser(person)
       .then((res) => {
         if (res.status === 201) {
-          setCharacters([...characters, person])
+          return res.json();
         }
-        else {throw "Failed to create."}
+        else {
+          throw new Error("User failed to post.");
+        }
+      })
+      .then((newPerson) => {
+        setCharacters([...characters, person]);
       })
       .catch((error) => {
         console.log(error);
