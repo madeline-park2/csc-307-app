@@ -16,14 +16,15 @@ function MyApp() {
   function updateList(person) { 
     postUser(person)
       .then((res) => {
-        if (res.status === 201) {return res.json()}
-        else throw "Failed to create."
+        if (res.status === 201) {
+          setCharacters([...characters, person])
+        }
+        else {throw "Failed to create."}
       })
-      .then((json) => setCharacters([...characters, res.json]))
       .catch((error) => {
         console.log(error);
-      })
-}
+      });
+  }
 
   function fetchUsers() {
     const promise = fetch("http://localhost:8000/users");
