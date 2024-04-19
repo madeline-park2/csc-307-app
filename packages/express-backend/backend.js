@@ -92,7 +92,12 @@ app.get("/users/:name/:job", (req, res) => {
   }
 });
 
+function genID(){
+  return Math.random();
+}
+
 const addUser = (user) => {
+  user.id = genID();
   users["users_list"].push(user);
   return user;
 };
