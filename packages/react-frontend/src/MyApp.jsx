@@ -19,7 +19,7 @@ function MyApp() {
         if (res.status === 201) {return res.json()}
         else throw "Failed to create."
       })
-      .then((json) => setCharacters([...characters, json]))
+      .then((json) => setCharacters([...characters, res.json]))
       .catch((error) => {
         console.log(error);
       })
