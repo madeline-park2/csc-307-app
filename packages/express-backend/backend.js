@@ -111,7 +111,13 @@ app.post("/users", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
   let index = getId(id)
-  users["users_list"].splice(index, 1);
+  if (index === -1) {
+    res.status(404).send("ID not found").end();
+  }
+  else {
+    users["users_list"].splice(index, 1);
+    res.status(204).end();
+  }
 });
 
 app.listen(port, () => {

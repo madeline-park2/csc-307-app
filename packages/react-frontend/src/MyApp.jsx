@@ -8,12 +8,11 @@ function MyApp() {
 
   function removeOneCharacter(index) {
     const id = characters[index]["id"];
-    console.log(characters[index]);
     const updated = characters.filter((character, i) => {
       return i !== index;
     })
     setCharacters(updated);
-    const promise = fetch(`http://localhost:8000/users/:${id}`, {method: "DELETE"});
+    const promise = fetch(`http://localhost:8000/users/${id}`, {method: "DELETE"});
     return promise;
   }
 
