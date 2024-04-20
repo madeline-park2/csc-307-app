@@ -8,10 +8,6 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 const users = {
   users_list: [
     {
@@ -48,6 +44,32 @@ const findUserByName = (name) => {
   );
 };
 
+const findUserByNameJob = (name, job) => {
+  return users["users_list"].filter((user) => user["name"] === name && user["job"] === job);
+}
+
+const findUserById = (id) =>
+  users["users_list"].find((user) => user["id"] === id);
+
+const addUser = (user) => {
+  let id = genID(user);
+  user.id = id;
+  users["users_list"].push(user);
+  return user;
+};
+
+const getId = (id) => {
+  let index = users["users_list"].indexOf(findUserById(id));
+  return index;
+}
+
+const genID = () => {
+  let id = '';
+  let r = Math.trunc(Math.random() * 1000);
+  id += r;
+  return id;
+}
+
 app.get("/users", (req, res) => {
   const name = req.query.name;
   if (name != undefined) {
@@ -58,17 +80,6 @@ app.get("/users", (req, res) => {
     res.send(users);
   }
 });
-
-const findUserById = (id) =>
-  users["users_list"].find((user) => user["id"] === id);
-
-const findUserByNameJob = (name, job) =>
-  users["users_list"].find((user) => user["name"] === name && user["job"] === job);
-
-  const getId = (id) => {
-    let index = users["users_list"].indexOf(findUserById(id));
-    return index;
-  }
 
 app.get("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
@@ -83,7 +94,6 @@ app.get("/users/:id", (req, res) => {
 app.get("/users/:name/:job", (req, res) => {
   const name = req.params["name"];
   const job = req.params["job"];
-  
   let result = findUserByNameJob(name, job);
   if (result === undefined) {
     res.status(404).send("Resource not found.");
@@ -92,27 +102,17 @@ app.get("/users/:name/:job", (req, res) => {
   }
 });
 
-function genID(){
-  return Math.random();
-}
-
-const addUser = (user) => {
-  user.id = genID();
-  users["users_list"].push(user);
-  return user;
-};
-
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
-  res.status(201).send(res.body);
+  res.status(201).send(userToAdd);
 });
 
 app.delete("/users/:id", (req, res) => {
   const id = req.params["id"]; //or req.params.id
-  let index = getId(id)
+  let index = getId(id);
   if (index === -1) {
-    res.status(404).send("ID not found").end();
+    res.status(404).send("Resource not found");
   }
   else {
     users["users_list"].splice(index, 1);

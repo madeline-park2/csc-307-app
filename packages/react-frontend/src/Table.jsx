@@ -5,6 +5,7 @@ function TableHeader() {
       <tr>
         <th>Name</th>
         <th>Job</th>
+        <th>ID</th>
       </tr>
     </thead>
   );

@@ -1,7 +1,7 @@
 // src/MyApp.jsx
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import Table from "./Table";
-import Form from "./Form"
+import Form from "./Form";
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
@@ -12,14 +12,16 @@ function MyApp() {
       return i !== index;
     })
     setCharacters(updated);
-    const promise = fetch(`http://localhost:8000/users/${id}`, {method: "DELETE"});
+    const promise = fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE"
+    })
     return promise;
   }
 
   function updateList(person) { 
     postUser(person)
       .then((res) => {
-        if (res.status === 201) {
+        if (res.ok && res.status === 201) {
           return res.json();
         }
         else {
@@ -40,13 +42,13 @@ function MyApp() {
   }
 
   function postUser(person) {
-    const promise = fetch("http://localhost:8000/users", {
+    const promise = fetch("Http://localhost:8000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(person),
-    });
+    })
     return promise;
   }
 
@@ -63,7 +65,7 @@ function MyApp() {
         characterData={characters}
         removeCharacter={removeOneCharacter}
       />
-      <Form handleSubmit={updateList} />
+      <Form handleSubmit={updateList}/>
     </div>
   );
 }
