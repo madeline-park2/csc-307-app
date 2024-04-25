@@ -11,5 +11,8 @@
   "license": "ISC",
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "mongoose": "^8.3.2"
+  }
 }
