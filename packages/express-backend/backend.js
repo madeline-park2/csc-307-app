@@ -28,16 +28,15 @@ app.get("/users", (req, res) => {
 });
 
 app.get("/users/:id", (req, res) => {
-  const id = req.params["id"];
+  const id = req.params["id"]; 
   userService.findUserById(id).then((result) => {
     if (result === undefined || result === null)
       res.status(404).send("Resource not found.");
     else res.send({ users_list: result });
-    //res.send( {users_list: result} );
   })
-  /*.catch((error) => {
-    res.status(400).send("Resource not found"); 
-  }); */
+  .catch((error) => {   // fixes CastError for improper syntax for ObjectId.
+    res.status(404).send("Resource not found.");
+  });
 });
 
 app.post("/users", (req, res) => {
